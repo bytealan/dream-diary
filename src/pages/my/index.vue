@@ -1,9 +1,8 @@
 <template>
-  <view>index</view>
+  <view>my</view>
 </template>
 
 <script setup lang="ts">
-
 </script>
 
 <style lang="less">
