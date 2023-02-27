@@ -9,37 +9,51 @@
   </view>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import { reactive } from "vue"
-import Taro from '@tarojs/taro'
 import { IconFont } from '@nutui/icons-vue-taro';
-
 import { storeToRefs } from "pinia";
+import Taro from '@tarojs/taro'
 import tabBarStore from '../store/tabBarStore';
-const { activeIndex } = storeToRefs(tabBarStore());
-type menu = {
-    title: string,
-    pagePath: string,
-    icon: string
-}
-// 导航栏处理逻辑
-const tabList = reactive<menu[]>([
-  {
-    title: '首页',
-    pagePath: '/pages/index/index',
-    icon: 'home'
+export default {
+  components:{
+    IconFont
   },
-  {
-    title: '我的',
-    pagePath: '/pages/my/index',
-    icon: 'my'
+  options: {
+    addGlobalClass: true,
+  },
+  setup() {
+    const { activeIndex } = storeToRefs(tabBarStore());
+    type menu = {
+        title: string,
+        pagePath: string,
+        icon: string
+    }
+    // 导航栏处理逻辑
+    const tabList = reactive<menu[]>([
+      {
+        title: '首页',
+        pagePath: '/pages/index/index',
+        icon: 'home'
+      },
+      {
+        title: '我的',
+        pagePath: '/pages/my/index',
+        icon: 'my'
+      }
+    ])
+    const handleNavigation = (index: number) => {
+      activeIndex.value = index
+      Taro.switchTab({
+        url: tabList[index].pagePath
+      })
+    }
+    return {
+      activeIndex,
+      tabList,
+      handleNavigation
+    };
   }
-])
-const handleNavigation = (index: number) => {
-  activeIndex.value = index
-  Taro.switchTab({
-    url: tabList[index].pagePath
-  })
 }
 </script>
 
@@ -86,10 +100,6 @@ const handleNavigation = (index: number) => {
       height: 100%;
       width: 100%;
       line-height: 140px;
-
-      text {
-        margin: 0 auto;
-      }
     }
   }
 
