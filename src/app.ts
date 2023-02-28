@@ -1,5 +1,10 @@
+import Taro from '@tarojs/taro'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+
+import themeStore from './store/themeStore';
+import { storeToRefs } from "pinia";
+
 import './app.less'
 
 const App = createApp({
@@ -8,5 +13,11 @@ const App = createApp({
 })
 
 App.use(createPinia())
+
+const { theme } = storeToRefs(themeStore());
+Taro.onThemeChange(e => {
+  theme.value = e.theme
+})
+
 
 export default App
