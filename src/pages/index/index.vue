@@ -3,13 +3,23 @@
     <view class="top"></view>
     <view class="welcome">
       <view class="left">
-        <view class="user-info">Hi,Wayne!</view>
+        <view class="user-info">Hi,Alan!</view>
         <view class="date">{{ nowDate }}</view>
       </view>
       <view class="right">
-        <nut-config-provider :theme="theme">
-          <nut-switch v-model="themeColor" @change="themeColorSwitchChange" />
-        </nut-config-provider>
+        <nut-button plain size="small" type="info">
+          <template #icon>
+            <Plus />
+          </template>
+        </nut-button>
+      </view>
+    </view>
+    <view class="swiper-time">
+      <view class="scroll-view">
+        <view class="scroll-view-item" v-for="item in daysList" :class="{'item-active':item.id===activeDay}" @tap="handleDayClick(item.id)">
+          <view class="item-top">{{ item.week }}</view>
+          <view class="item-bottom">{{ item.time }}</view>
+        </view>
       </view>
     </view>
     <view class="panel">
@@ -18,10 +28,10 @@
         <view class="more">更多</view>
       </view>
       <view class="panel-diary">
-        <view class="diary-item">
+        <view class="diary-item" v-for="item in 5">
           <view class="item-left">
             <view class="item-title">
-              What a Day!
+              What a Day! {{ item }}
             </view>
             <view class="item-time">
               20:30 25th Nov 2019
@@ -37,30 +47,36 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, reactive } from "vue";
 import { IconFont } from '@nutui/icons-vue-taro';
 import { useDateFormat, useNow } from '@vueuse/core';
 import { appHeaderHeight } from "../../utils/system-Info";
-import themeStore from '../../store/themeStore';
-import { storeToRefs } from "pinia";
+import { Plus } from '@nutui/icons-vue-taro';
+
 const divAppHeaderHeight = appHeaderHeight + 'px';
 
-const { theme } = storeToRefs(themeStore());
-const themeColor = computed({
-  get() {
-    return theme.value === 'dark';
-  },
-  set(newVal) {
-    theme.value = newVal? 'dark' : 'light';
-  }
-});
-const themeColorSwitchChange = (v: boolean) => {
-  theme.value = v ? 'dark' : 'light';
+const nowDate = ref(useDateFormat(useNow(), "MM月DD日"));
+
+const now = new Date();
+type day = {
+  id: number,
+  time:string,
+  week:string
 };
-
-
-
-const nowDate = ref(useDateFormat(useNow(), "MM月DD日"))
+const daysList = reactive<day[]>([]);
+for (let i = 0; i < 7; i++) {
+  daysList.push({
+    id: i,
+    time: useDateFormat(now,"DD").value,
+    week: useDateFormat(now,"dd").value
+  });
+  now.setDate(now.getDate()-1);
+};
+daysList.reverse()
+const activeDay = ref(0);
+const handleDayClick = (id: number) => {
+  activeDay.value = id;
+}
 </script>
 
 <style lang="less">
@@ -87,8 +103,37 @@ const nowDate = ref(useDateFormat(useNow(), "MM月DD日"))
     }
   }
 
+  .swiper-time{
+    padding: 20px 0;
+    .scroll-view{
+      white-space: nowrap;
+      display: flex;
+      .scroll-view-item{
+        display: inline-block;
+        width: 100%;
+        height: 180px;
+        margin: 0 10px;
+        text-align: center;
+        border-radius: 20px;
+        color: var(--sub-title-color);
+        .item-top{
+          height: 90px;
+          line-height: 90px;
+          font-size: var(--sub-title-size);
+        }
+        .item-bottom{
+          height: 90px;
+        }
+      }
+      .item-active{
+        background-color: var(--nav-active-text-color);
+        color: #ffffff;
+      }
+    }
+  }
+
   .panel{
-    margin-top: 20px;
+    margin-top: 10px;
     padding: var(--content-padding);
     .panel-title{
       display: flex;
@@ -112,7 +157,7 @@ const nowDate = ref(useDateFormat(useNow(), "MM月DD日"))
         justify-content: space-between;
         border-left: 8px solid var(--nav-active-text-color);
         padding: 0 20px;
-        margin: 16px 0;
+        margin: 30px 0;
         .item-left{
           .item-title{
             font-size: var(--title-size);
