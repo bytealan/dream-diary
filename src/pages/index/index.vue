@@ -1,6 +1,5 @@
 <template>
   <view class="home">
-    <view class="top"></view>
     <view class="welcome">
       <view class="left">
         <view class="user-info">Hi,Alan!</view>
@@ -27,8 +26,10 @@
         <view class="title">最新</view>
         <view class="more">更多</view>
       </view>
-      <view class="panel-diary">
-        <view class="diary-item" v-for="item in 5">
+    </view>
+    <view class="panel-diary">
+      <scroll-view class="diary-scroll" :scroll-y="true">
+        <view class="diary-item" v-for="item in 20">
           <view class="item-left">
             <view class="item-title">
               What a Day! {{ item }}
@@ -41,7 +42,8 @@
             <IconFont name="rect-right"></IconFont>
           </view>
         </view>
-      </view>
+        <view class="safe-block"></view>
+      </scroll-view>
     </view>
   </view>
 </template>
@@ -52,6 +54,8 @@ import { IconFont } from '@nutui/icons-vue-taro';
 import { useDateFormat, useNow } from '@vueuse/core';
 import { appHeaderHeight } from "../../utils/system-Info";
 import { Plus } from '@nutui/icons-vue-taro';
+
+const theme = ref('dark');
 
 const divAppHeaderHeight = appHeaderHeight + 'px';
 
@@ -81,11 +85,13 @@ const handleDayClick = (id: number) => {
 
 <style lang="less">
 .home{
-  .top{
-    height: v-bind(divAppHeaderHeight);
-  }
+  display: flex;
+  flex-direction:column;
+  height:100vh;
+  overflow:hidden;
 
   .welcome{
+    margin-top: v-bind(divAppHeaderHeight);
     padding: var(--content-padding);
     display: flex;
     justify-content: space-between;
@@ -149,8 +155,13 @@ const handleDayClick = (id: number) => {
         color: var(--sub-title-color);
       }
     }
-    .panel-diary{
-      padding: 20px 0;
+  }
+  .panel-diary{
+    flex: 1;
+    height: 1px;
+    .diary-scroll{
+      padding: var(--content-padding);
+      height: 100%;
       .diary-item{
         display: flex;
         align-items: center;
@@ -170,6 +181,9 @@ const handleDayClick = (id: number) => {
         .item-right{
           color: var(--sub-title-color);
         }
+      }
+      .safe-block{
+        height: calc(env(safe-area-inset-bottom) + 150px);
       }
     }
   }

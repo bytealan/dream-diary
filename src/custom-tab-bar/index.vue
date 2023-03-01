@@ -59,8 +59,18 @@ export default {
 
 <style lang="less">
 .tab-bar {
+  --nav-back-ground: #ffffff;
   --nav-active-color: #ecf2fe;
   --nav-active-text-color: #0052d9;
+}
+@media (prefers-color-scheme: dark) {
+  /* DarkMode 下的样式 start */
+  .tab-bar{
+    --nav-back-ground: #1f1f1f;
+    --nav-active-color: #687388;
+    --nav-active-text-color: #ffffff;
+  }
+  /* DarkMode 下的样式 end */
 }
 .tab-bar {
   width: 80%;
@@ -69,7 +79,7 @@ export default {
   z-index: 2023;
   position: fixed;
   left: 0;
-  background-color: #ffffff;
+  background-color: var(--nav-back-ground);
   margin: 0 auto;
   right: 0;
   bottom: 0;
