@@ -1,16 +1,14 @@
 <template>
   <view class="flex flex-col h-screen overflow-hidden">
-    <view class="welcome px-5 py-1 flex justify-between items-center">
+    <view class="welcome px-5 pr-2 py-1 flex justify-between items-center">
       <view>
         <view class="text-xl font-bold">Hi,Alan!</view>
         <view class="text-sm text-gray-400">{{ nowDate }}</view>
       </view>
       <view>
-        <nut-button plain size="small" type="info">
-          <template #icon>
-            <Plus />
-          </template>
-        </nut-button>
+        <view class="w-16 h-8 border-solid border-2 border-blue-600 rounded-full text-center align-middle flex flex-col items-center">
+          <Plus class="text-blue-600 flex-1" />
+        </view>
       </view>
     </view>
     <view class="py-3">
