@@ -1,5 +1,5 @@
 <template>
-  <view class="home flex flex-col h-screen overflow-hidden">
+  <view class="flex flex-col h-screen overflow-hidden">
     <view class="welcome px-5 py-1 flex justify-between items-center">
       <view>
         <view class="text-xl font-bold">Hi,Alan!</view>
@@ -81,10 +81,8 @@ const handleDayClick = (id: number) => {
 }
 </script>
 
-<style lang="less">
-.home{
-  .welcome{
-    margin-top: v-bind(divAppHeaderHeight);
-  }
+<style>
+.welcome{
+  margin-top: v-bind(divAppHeaderHeight);
 }
 </style>

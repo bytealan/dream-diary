@@ -5,8 +5,7 @@ import { createPinia } from 'pinia'
 import themeStore from './store/themeStore';
 import { storeToRefs } from "pinia";
 
-import './style.css'
-import './app.less'
+import './app.css'
 
 const App = createApp({
   onShow (options) {},

@@ -6,3 +6,7 @@
     height: calc(env(safe-area-inset-bottom) + 150px);
   }
 }
+
+page{
+  @apply text-gray-800 font-sans;
+}

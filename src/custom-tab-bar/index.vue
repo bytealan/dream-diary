@@ -1,6 +1,6 @@
 <template>
   <!-- 导航 -->
-  <view class="tab-bar">
+  <view class="tab-bar w-3_4">
     <view class="tab-bar-item" v-for="(item, index) in tabList" :key="index"  @tap="handleNavigation(index)">
       <view class="tab-bar-item-content" :class="{ 'tab-bar-item-acitive': activeIndex === index }">
         <IconFont :name="item.icon"/>
